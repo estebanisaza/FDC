@@ -86,6 +86,19 @@
         }, 30000);
       }
 
+      // 🔊 Activar audio con primer clic/tap
+      document.addEventListener(
+        "click",
+        () => {
+          const sonido = document.getElementById("sonido-parpadeo");
+          sonido
+            .play()
+            .then(() => console.log("Audio desbloqueado"))
+            .catch((e) => console.warn("Bloqueado por navegador:", e));
+        },
+        { once: true }
+      );
+
       iniciarParpadeoPantallaCompleta();
 
       const claves = {
