@@ -11,57 +11,80 @@
     <div class="latin-phrase glitch">Esne paratus?</div>
     <div class="countdown" id="display">00:00:00</div>
 
+    <div class="questions-container">
+      <div class="question">
+        <h3>Pregunta 1:</h3>
+        <p>¿Cuál es la palabra que define el amor por la sabiduría?</p>
+        <input
+          type="text"
+          id="respuesta1"
+          placeholder="Tu respuesta..."
+          oninput="validarIndividual()"
+        />
+        <div id="estado1" class="estado-respuesta"></div>
+      </div>
+      <div class="question">
+        <h3>Pregunta 2:</h3>
+        <p>¿Cómo se llama un lugar donde uno bebe y conversa?</p>
+        <input
+          type="text"
+          id="respuesta2"
+          placeholder="Tu respuesta..."
+          oninput="validarIndividual()"
+        />
+        <div id="estado2" class="estado-respuesta"></div>
+      </div>
+    </div>
+
+    <button class="popup-btn" onclick="abrirPopup()">✶</button>
+
+    <div class="popup-container" id="popup">
+      <div class="popup-content">
+        <button class="cerrar" onclick="cerrarPopup()">✖</button>
+        <h2>Clave secreta</h2>
+        <input
+          type="text"
+          id="claveInput"
+          placeholder="Escribe la frase completa..."
+        />
+        <button onclick="validarClave()">Enviar</button>
+        <div id="phoneNumber"></div>
+      </div>
+    </div>
+
     <div id="parpadeo-fullscreen">
       <img id="imagen-parpadeo" src="images/satanics.jpg" alt="???" />
     </div>
 
-    <audio
-      id="sonido-parpadeo"
-      src="./sounds/VetitasInv.mp3"
-      preload="auto"
-    ></audio>
-
     <script>
+      // Cuenta regresiva
       const fechaObjetivo = new Date("2025-07-24T21:00:00");
-      let intervalo;
+      let intervalo = setInterval(() => {
+        const ahora = new Date();
+        const diferencia = fechaObjetivo - ahora;
 
-      function iniciarCuentaRegresiva() {
-        clearInterval(intervalo);
-        intervalo = setInterval(() => {
-          const ahora = new Date();
-          const diferencia = fechaObjetivo - ahora;
+        if (diferencia <= 0) {
+          document.getElementById("display").textContent = "00:00:00";
+          clearInterval(intervalo);
+          return;
+        }
 
-          if (diferencia <= 0) {
-            document.getElementById("display").textContent = "00:00:00";
-            clearInterval(intervalo);
-            return;
-          }
+        const totalSegundos = Math.floor(diferencia / 1000);
+        const horas = Math.floor(totalSegundos / 3600);
+        const minutos = Math.floor((totalSegundos % 3600) / 60);
+        const segundos = totalSegundos % 60;
 
-          const totalSegundos = Math.floor(diferencia / 1000);
-          const horas = Math.floor(totalSegundos / 3600);
-          const minutos = Math.floor((totalSegundos % 3600) / 60);
-          const segundos = totalSegundos % 60;
+        const formato = (n) => n.toString().padStart(2, "0");
+        document.getElementById("display").textContent = `${formato(
+          horas
+        )}:${formato(minutos)}:${formato(segundos)}`;
+      }, 1000);
 
-          const formato = (n) => n.toString().padStart(2, "0");
-          document.getElementById("display").textContent = `${formato(
-            horas
-          )}:${formato(minutos)}:${formato(segundos)}`;
-        }, 1000);
-      }
-
-      iniciarCuentaRegresiva();
-
+      // Parpadeo pantalla completa
       function iniciarParpadeoPantallaCompleta() {
         const contenedor = document.getElementById("parpadeo-fullscreen");
-        const sonido = document.getElementById("sonido-parpadeo");
-
         setInterval(() => {
-          sonido.currentTime = 0;
-          sonido
-            .play()
-            .catch((e) => console.warn("Reproducción bloqueada:", e));
           contenedor.style.opacity = "1";
-
           setTimeout(() => {
             contenedor.style.opacity = "0";
           }, 1500);
@@ -70,11 +93,69 @@
 
       iniciarParpadeoPantallaCompleta();
 
-      document.body.appendChild(contenedor);
+      // Popup
+      function abrirPopup() {
+        document.getElementById("popup").classList.add("active");
+      }
 
-      setTimeout(() => {
-        contenedor.remove();
-      }, 15000);
+      function cerrarPopup() {
+        document.getElementById("popup").classList.remove("active");
+        document.getElementById("claveInput").value = "";
+        document.getElementById("phoneNumber").textContent = "";
+      }
+
+      function validarClave() {
+        const clave = document
+          .getElementById("claveInput")
+          .value.trim()
+          .toLowerCase();
+        const claveCorrecta = atob("Zmlsb3NvZmlhIGNhbnRpbmE=");
+
+        if (clave === claveCorrecta) {
+          document.getElementById("phoneNumber").textContent =
+            "📱 +57 300 123 4567";
+        } else {
+          document.getElementById("phoneNumber").textContent =
+            "❌ Clave incorrecta";
+        }
+      }
+
+      function validarIndividual() {
+        const r1 = document
+          .getElementById("respuesta1")
+          .value.trim()
+          .toLowerCase();
+        const r2 = document
+          .getElementById("respuesta2")
+          .value.trim()
+          .toLowerCase();
+
+        const estado1 = document.getElementById("estado1");
+        const estado2 = document.getElementById("estado2");
+
+        const correcta1 = atob("Zmlsb3NvZmlh");
+        const correcta2 = atob("Y2FudGluYQ==");
+
+        if (r1 === correcta1) {
+          estado1.textContent = "✔️ Correcto";
+          estado1.style.color = "lime";
+        } else if (r1.length > 0) {
+          estado1.textContent = "❌ Incorrecto";
+          estado1.style.color = "red";
+        } else {
+          estado1.textContent = "";
+        }
+
+        if (r2 === correcta2) {
+          estado2.textContent = "✔️ Correcto";
+          estado2.style.color = "lime";
+        } else if (r2.length > 0) {
+          estado2.textContent = "❌ Incorrecto";
+          estado2.style.color = "red";
+        } else {
+          estado2.textContent = "";
+        }
+      }
     </script>
   </body>
 </html>
