@@ -13,8 +13,13 @@
 
     <div class="questions-container">
       <div class="question">
-        <h3>Pregunta 1:</h3>
-        <p>¿Cuál es la palabra que define el amor por la sabiduría?</p>
+        <p>
+          “Soy lo que queda cuando el velo se rompe.<br />
+          No brillo, no consuelo, no miento.<br />
+          A muchos los hiere, a otros los despierta.<br />
+          Estoy detrás del sueño, pero nunca en él.<br />
+          Cuando la ilusión cae… <br />¿quién soy yo?”
+        </p>
         <input
           type="text"
           id="respuesta1"
@@ -24,8 +29,13 @@
         <div id="estado1" class="estado-respuesta"></div>
       </div>
       <div class="question">
-        <h3>Pregunta 2:</h3>
-        <p>¿Cómo se llama un lugar donde uno bebe y conversa?</p>
+        <p>
+          “No tiene forma ni peso, pero aplasta más que la piedra.<br />
+          No se ve, pero te sigue como sombra fiel. <br />
+          Surge cuando despiertas al ser, y se vuelve tormenta si intentas huir
+          de ti.<br />
+          No es la existencia… <br />¿Entonces qué es?”
+        </p>
         <input
           type="text"
           id="respuesta2"
@@ -109,11 +119,11 @@
           .getElementById("claveInput")
           .value.trim()
           .toLowerCase();
-        const claveCorrecta = atob("Zmlsb3NvZmlhIGNhbnRpbmE=");
+        const claveCorrecta = atob("cmVhbGlkYWQgY29uY2llbmNpYQ==");
 
         if (clave === claveCorrecta) {
           document.getElementById("phoneNumber").textContent =
-            "📱 +57 300 123 4567";
+            "📱 +57 319 625 16 13";
         } else {
           document.getElementById("phoneNumber").textContent =
             "❌ Clave incorrecta";
@@ -133,8 +143,8 @@
         const estado1 = document.getElementById("estado1");
         const estado2 = document.getElementById("estado2");
 
-        const correcta1 = atob("Zmlsb3NvZmlh");
-        const correcta2 = atob("Y2FudGluYQ==");
+        const correcta1 = atob("cmVhbGlkYWQ=");
+        const correcta2 = atob("Y29uY2llbmNpYQ==");
 
         if (r1 === correcta1) {
           estado1.textContent = "✔️ Correcto";
